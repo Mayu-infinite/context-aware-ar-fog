@@ -1,0 +1,7 @@
+video,width,height,fps,frames,duration_seconds,status
+video01.mp4,1280,720,30.0,285,9.5,ok
+video02.mp4,1280,720,30.0,226,7.53,ok
+video03.mp4,1280,720,30.0,379,12.63,ok
+video04.mp4,1280,720,30.0,307,10.23,ok
+video05.mp4,1280,720,30.0,268,8.93,ok
+video06.mp4,1280,720,29.7,299,10.07,ok

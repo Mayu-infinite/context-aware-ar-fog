@@ -1,0 +1,12 @@
+narrow_doorway:
+  max_width_m: 0.75
+  trigger_distance_m: 1.50
+
+obstacle:
+  trigger_distance_m: 1.20
+
+turn:
+  minimum_angle_deg: 30.0
+
+path:
+  minimum_width_m: 0.75

@@ -1,0 +1,132 @@
+
+# Python bytecode and cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.pyre/
+.pytype/
+
+# Python build/package outputs
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Secrets and environment files
+.env
+.env.*
+!.env.example
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE and editor files
+.vscode/
+.idea/
+.history/
+
+# Operating system
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Python tooling and local configuration
+.coverage
+htmlcov/
+.tox/
+.nox/
+*.local.yaml
+*.local.yml
+*.local.json
+
+# ML experiment outputs
+runs/
+wandb/
+mlruns/
+tensorboard/
+
+# Model weights and exported engines
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.engine
+*.safetensors
+
+# Dataset and generated processing outputs
+data/raw/*
+!data/raw/.gitkeep
+
+data/interim/*
+!data/interim/.gitkeep
+
+data/processed/*
+!data/processed/.gitkeep
+
+# Experiment result outputs
+experiments/*/results/*
+!experiments/*/results/.gitkeep
+
+# Generated media inside data/ and experiment output directories
+data/**/*.mp4
+data/**/*.avi
+data/**/*.mov
+data/**/*.mkv
+data/**/*.webm
+data/**/*.jpg
+data/**/*.jpeg
+data/**/*.png
+data/**/*.bmp
+data/**/*.tiff
+data/**/*.webp
+
+experiments/*/results/**/*.mp4
+experiments/*/results/**/*.avi
+experiments/*/results/**/*.mov
+experiments/*/results/**/*.mkv
+experiments/*/results/**/*.webm
+experiments/*/results/**/*.jpg
+experiments/*/results/**/*.jpeg
+experiments/*/results/**/*.png
+
+# Logs and temporary files
+*.log
+logs/
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# Unity generated folders
+unity/**/Library/
+unity/**/Temp/
+unity/**/Obj/
+unity/**/Build/
+unity/**/Builds/
+unity/**/Logs/
+unity/**/UserSettings/
+unity/**/MemoryCaptures/
+unity/**/Recordings/
+
+# Unity generated project files
+unity/**/*.csproj
+unity/**/*.unityproj
+unity/**/*.sln
+unity/**/*.suo
+unity/**/*.user
+unity/**/*.userprefs
+
+# Unity generated system files
+unity/**/sysinfo.txt
+unity/**/crashlytics-build-id.txt

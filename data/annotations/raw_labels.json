@@ -1,0 +1,38 @@
+[
+  {
+    "video": "scene_001.mp4",
+    "scene": "open_corridor",
+    "door_width_m": null,
+    "door_distance_m": null,
+    "obstacle": false,
+    "path_width_m": 1.5,
+    "context": "OPEN_PATH",
+    "recommended_action": "CONTINUE",
+    "visual_cue": "NONE",
+    "audio_cue": "NONE"
+  },
+  {
+    "video": "scene_002.mp4",
+    "scene": "narrow_doorway",
+    "door_width_m": 0.65,
+    "door_distance_m": 1.2,
+    "obstacle": false,
+    "path_width_m": 0.65,
+    "context": "NARROW_DOORWAY",
+    "recommended_action": "CENTER_PATH",
+    "visual_cue": "FOOTSTEPS",
+    "audio_cue": "RHYTHMIC"
+  },
+  {
+    "video": "scene_003.mp4",
+    "scene": "obstacle",
+    "door_width_m": null,
+    "door_distance_m": null,
+    "obstacle": true,
+    "path_width_m": 0.9,
+    "context": "OBSTACLE",
+    "recommended_action": "FOLLOW_SAFE_PATH",
+    "visual_cue": "DIRECTIONAL_TARGET",
+    "audio_cue": "NONE"
+  }
+]

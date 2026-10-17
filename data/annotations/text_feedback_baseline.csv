@@ -1,0 +1,33 @@
+video_id,frame_index,scene_type,feedback,action,reason,evidence_level,research_only
+video01,0,office,A possible obstacle appears near the centre of the view. Verify its location and the available clearance.,VERIFY_POTENTIAL_OBSTACLE,"A detected bounding box overlaps the central, lower image region; physical obstruction is unconfirmed.",limited,True
+video01,60,office,Unable to assess the path from current detections. Obtain more scene information.,NO_AUTOMATIC_ACTION,No objects detected; free space remains unknown.,insufficient,True
+video01,120,office,Unable to assess the path from current detections. Obtain more scene information.,NO_AUTOMATIC_ACTION,No objects detected; free space remains unknown.,insufficient,True
+video01,180,office,Unable to assess the path from current detections. Obtain more scene information.,NO_AUTOMATIC_ACTION,No objects detected; free space remains unknown.,insufficient,True
+video01,240,office,"Scene detected, but there is insufficient evidence to recommend a direction.",NO_AUTOMATIC_ACTION,Scene geometry and route are not validated.,insufficient,True
+video02,0,corridor,Unable to assess the path from current detections. Obtain more scene information.,NO_AUTOMATIC_ACTION,No objects detected; free space remains unknown.,insufficient,True
+video02,60,corridor,Unable to assess the path from current detections. Obtain more scene information.,NO_AUTOMATIC_ACTION,No objects detected; free space remains unknown.,insufficient,True
+video02,120,corridor,Unable to assess the path from current detections. Obtain more scene information.,NO_AUTOMATIC_ACTION,No objects detected; free space remains unknown.,insufficient,True
+video02,180,corridor,Unable to assess the path from current detections. Obtain more scene information.,NO_AUTOMATIC_ACTION,No objects detected; free space remains unknown.,insufficient,True
+video03,0,stairwell,Unable to assess the path from current detections. Obtain more scene information.,NO_AUTOMATIC_ACTION,No objects detected; free space remains unknown.,insufficient,True
+video03,60,stairwell,Unable to assess the path from current detections. Obtain more scene information.,NO_AUTOMATIC_ACTION,No objects detected; free space remains unknown.,insufficient,True
+video03,120,stairwell,Unable to assess the path from current detections. Obtain more scene information.,NO_AUTOMATIC_ACTION,No objects detected; free space remains unknown.,insufficient,True
+video03,180,stairwell,Unable to assess the path from current detections. Obtain more scene information.,NO_AUTOMATIC_ACTION,No objects detected; free space remains unknown.,insufficient,True
+video03,240,stairwell,A possible obstacle appears near the centre of the view. Verify its location and the available clearance.,VERIFY_POTENTIAL_OBSTACLE,"A detected bounding box overlaps the central, lower image region; physical obstruction is unconfirmed.",limited,True
+video03,300,stairwell,Stairs or a landing may be present. The current system cannot assess safe passage.,NO_AUTOMATIC_ACTION,Stair geometry and traversability are not estimated.,insufficient,True
+video03,360,stairwell,Stairs or a landing may be present. The current system cannot assess safe passage.,NO_AUTOMATIC_ACTION,Stair geometry and traversability are not estimated.,insufficient,True
+video04,0,entrance,A possible obstacle appears near the centre of the view. Verify its location and the available clearance.,VERIFY_POTENTIAL_OBSTACLE,"A detected bounding box overlaps the central, lower image region; physical obstruction is unconfirmed.",limited,True
+video04,60,entrance,A possible obstacle appears near the centre of the view. Verify its location and the available clearance.,VERIFY_POTENTIAL_OBSTACLE,"A detected bounding box overlaps the central, lower image region; physical obstruction is unconfirmed.",limited,True
+video04,120,entrance,A possible obstacle appears near the centre of the view. Verify its location and the available clearance.,VERIFY_POTENTIAL_OBSTACLE,"A detected bounding box overlaps the central, lower image region; physical obstruction is unconfirmed.",limited,True
+video04,180,entrance,"Scene detected, but there is insufficient evidence to recommend a direction.",NO_AUTOMATIC_ACTION,Scene geometry and route are not validated.,insufficient,True
+video04,240,entrance,"Scene detected, but there is insufficient evidence to recommend a direction.",NO_AUTOMATIC_ACTION,Scene geometry and route are not validated.,insufficient,True
+video04,300,entrance,"Scene detected, but there is insufficient evidence to recommend a direction.",NO_AUTOMATIC_ACTION,Scene geometry and route are not validated.,insufficient,True
+video05,0,doorway,Unable to assess the path from current detections. Obtain more scene information.,NO_AUTOMATIC_ACTION,No objects detected; free space remains unknown.,insufficient,True
+video05,60,doorway,Unable to assess the path from current detections. Obtain more scene information.,NO_AUTOMATIC_ACTION,No objects detected; free space remains unknown.,insufficient,True
+video05,120,doorway,Unable to assess the path from current detections. Obtain more scene information.,NO_AUTOMATIC_ACTION,No objects detected; free space remains unknown.,insufficient,True
+video05,180,doorway,A doorway may be present. Opening width and clearance have not been measured.,NO_AUTOMATIC_ACTION,Doorway passage is not verified geometrically.,insufficient,True
+video05,240,doorway,A doorway may be present. Opening width and clearance have not been measured.,NO_AUTOMATIC_ACTION,Doorway passage is not verified geometrically.,insufficient,True
+video06,0,office,A possible obstacle appears near the centre of the view. Verify its location and the available clearance.,VERIFY_POTENTIAL_OBSTACLE,"A detected bounding box overlaps the central, lower image region; physical obstruction is unconfirmed.",limited,True
+video06,60,office,"Scene detected, but there is insufficient evidence to recommend a direction.",NO_AUTOMATIC_ACTION,Scene geometry and route are not validated.,insufficient,True
+video06,120,office,A possible obstacle appears near the centre of the view. Verify its location and the available clearance.,VERIFY_POTENTIAL_OBSTACLE,"A detected bounding box overlaps the central, lower image region; physical obstruction is unconfirmed.",limited,True
+video06,180,office,A possible obstacle appears near the centre of the view. Verify its location and the available clearance.,VERIFY_POTENTIAL_OBSTACLE,"A detected bounding box overlaps the central, lower image region; physical obstruction is unconfirmed.",limited,True
+video06,240,office,"Scene detected, but there is insufficient evidence to recommend a direction.",NO_AUTOMATIC_ACTION,Scene geometry and route are not validated.,insufficient,True

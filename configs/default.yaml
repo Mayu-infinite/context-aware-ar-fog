@@ -1,0 +1,25 @@
+project:
+  name: "context-aware-ar-fog"
+  version: "0.1.0"
+
+paths:
+  raw_data: "data/raw"
+  interim_data: "data/interim"
+  processed_data: "data/processed"
+  annotations: "data/annotations"
+  models: "models"
+
+perception:
+  model: "yolo26n.pt"
+  confidence: 0.35
+  image_size: 640
+
+realtime:
+  camera_index: 0
+  target_fps: 30
+
+context:
+  enable_rules: true
+
+policy:
+  enable_cues: true

@@ -1,0 +1,33 @@
+video_id,frame_file,scene_type,path_status,obstacle_position,confidence,notes
+video01,data/interim/frames/video01/frame_000000.jpg,office,uncertain,multiple,low,Preliminary: office furniture visible; inspect individual frame.
+video01,data/interim/frames/video01/frame_000060.jpg,office,uncertain,multiple,low,Preliminary: office furniture visible; inspect individual frame.
+video01,data/interim/frames/video01/frame_000120.jpg,office,uncertain,multiple,low,Preliminary: office furniture visible; inspect individual frame.
+video01,data/interim/frames/video01/frame_000180.jpg,office,uncertain,multiple,low,Preliminary: office furniture visible; inspect individual frame.
+video01,data/interim/frames/video01/frame_000240.jpg,office,uncertain,multiple,low,Preliminary: office furniture visible; inspect individual frame.
+video02,data/interim/frames/video02/frame_000000.jpg,corridor,uncertain,centre,low,Preliminary: corridor with closed door at far end; inspect clearance.
+video02,data/interim/frames/video02/frame_000060.jpg,corridor,uncertain,centre,low,Preliminary: corridor with closed door at far end; inspect clearance.
+video02,data/interim/frames/video02/frame_000120.jpg,corridor,uncertain,centre,low,Preliminary: corridor with closed door at far end; inspect clearance.
+video02,data/interim/frames/video02/frame_000180.jpg,corridor,uncertain,centre,low,Preliminary: corridor with closed door at far end; inspect clearance.
+video03,data/interim/frames/video03/frame_000000.jpg,stairwell,uncertain,multiple,low,Preliminary: landing/stairs and railing visible; do not infer safe passage.
+video03,data/interim/frames/video03/frame_000060.jpg,stairwell,uncertain,multiple,low,Preliminary: landing/stairs and railing visible; do not infer safe passage.
+video03,data/interim/frames/video03/frame_000120.jpg,stairwell,uncertain,multiple,low,Preliminary: landing/stairs and railing visible; do not infer safe passage.
+video03,data/interim/frames/video03/frame_000180.jpg,stairwell,uncertain,multiple,low,Preliminary: landing/stairs and railing visible; do not infer safe passage.
+video03,data/interim/frames/video03/frame_000240.jpg,stairwell,uncertain,multiple,low,Preliminary: landing/stairs and railing visible; do not infer safe passage.
+video03,data/interim/frames/video03/frame_000300.jpg,stairwell,uncertain,multiple,low,Preliminary: landing/stairs and railing visible; do not infer safe passage.
+video03,data/interim/frames/video03/frame_000360.jpg,stairwell,uncertain,multiple,low,Preliminary: landing/stairs and railing visible; do not infer safe passage.
+video04,data/interim/frames/video04/frame_000000.jpg,entrance,uncertain,multiple,low,"Preliminary: entrance area with signboard, plants and seating."
+video04,data/interim/frames/video04/frame_000060.jpg,entrance,uncertain,multiple,low,"Preliminary: entrance area with signboard, plants and seating."
+video04,data/interim/frames/video04/frame_000120.jpg,entrance,uncertain,multiple,low,"Preliminary: entrance area with signboard, plants and seating."
+video04,data/interim/frames/video04/frame_000180.jpg,entrance,uncertain,multiple,low,"Preliminary: entrance area with signboard, plants and seating."
+video04,data/interim/frames/video04/frame_000240.jpg,entrance,uncertain,multiple,low,"Preliminary: entrance area with signboard, plants and seating."
+video04,data/interim/frames/video04/frame_000300.jpg,entrance,uncertain,multiple,low,"Preliminary: entrance area with signboard, plants and seating."
+video05,data/interim/frames/video05/frame_000000.jpg,doorway,uncertain,centre,low,Preliminary: doorway changes across frames; inspect opening and clearance.
+video05,data/interim/frames/video05/frame_000060.jpg,doorway,uncertain,centre,low,Preliminary: doorway changes across frames; inspect opening and clearance.
+video05,data/interim/frames/video05/frame_000120.jpg,doorway,uncertain,centre,low,Preliminary: doorway changes across frames; inspect opening and clearance.
+video05,data/interim/frames/video05/frame_000180.jpg,doorway,uncertain,centre,low,Preliminary: doorway changes across frames; inspect opening and clearance.
+video05,data/interim/frames/video05/frame_000240.jpg,doorway,uncertain,centre,low,Preliminary: doorway changes across frames; inspect opening and clearance.
+video06,data/interim/frames/video06/frame_000000.jpg,office,uncertain,multiple,low,Preliminary: office desks and chairs with a visible aisle.
+video06,data/interim/frames/video06/frame_000060.jpg,office,uncertain,multiple,low,Preliminary: office desks and chairs with a visible aisle.
+video06,data/interim/frames/video06/frame_000120.jpg,office,uncertain,multiple,low,Preliminary: office desks and chairs with a visible aisle.
+video06,data/interim/frames/video06/frame_000180.jpg,office,uncertain,multiple,low,Preliminary: office desks and chairs with a visible aisle.
+video06,data/interim/frames/video06/frame_000240.jpg,office,uncertain,multiple,low,Preliminary: office desks and chairs with a visible aisle.

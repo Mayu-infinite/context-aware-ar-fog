@@ -1,0 +1,42 @@
+
+OPEN_PATH:
+  action: "CONTINUE"
+  visual_cue: "NONE"
+  audio_cue: "NONE"
+  text_feedback: "NONE"
+
+NARROW_DOORWAY:
+  action: "CENTER_PATH"
+  visual_cue: "FOOTSTEPS"
+  audio_cue: "RHYTHMIC"
+  text_feedback: "Approach the opening carefully."
+
+OBSTACLE:
+  action: "FOLLOW_SAFE_PATH"
+  visual_cue: "DIRECTIONAL_TARGET"
+  audio_cue: "NONE"
+  text_feedback: "An obstacle may be ahead. Proceed carefully."
+
+TURN_LEFT:
+  action: "TURN_LEFT"
+  visual_cue: "LEFT_FOOTSTEPS"
+  audio_cue: "RHYTHMIC"
+  text_feedback: "A left turn may be ahead."
+
+TURN_RIGHT:
+  action: "TURN_RIGHT"
+  visual_cue: "RIGHT_FOOTSTEPS"
+  audio_cue: "RHYTHMIC"
+  text_feedback: "A right turn may be ahead."
+
+COMPLEX_SPACE:
+  action: "PAUSE_AND_ORIENT"
+  visual_cue: "MINIMAL_TARGET"
+  audio_cue: "NONE"
+  text_feedback: "Pause and orient yourself."
+
+UNKNOWN:
+  action: "NO_AUTOMATIC_ACTION"
+  visual_cue: "NONE"
+  audio_cue: "NONE"
+  text_feedback: "NONE"
