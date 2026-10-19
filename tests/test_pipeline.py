@@ -114,3 +114,42 @@ def test_unrelated_object_does_not_count_as_obstacle() -> None:
     assert result.scene_state.obstacle_detected is False
     assert result.scene_state.context == ContextType.UNKNOWN
     assert result.cue.action.value == "NO_AUTOMATIC_ACTION"
+def test_pipeline_records_value_estimate_without_claiming_route_safety():
+    pipeline = make_pipeline([])
+    frame = np.zeros((480, 640, 3), dtype=np.uint8)
+
+    result = pipeline.process(frame)
+
+    assert result.scene_state.spatial_value is not None
+    assert result.scene_state.spatial_value_confidence == 0.0
+    assert result.scene_state.spatial_value_change is None
+    assert result.scene_state.route_evidence_sufficient is False
+
+
+def test_obstacle_detection_does_not_enable_route_guidance():
+    detection = Detection(
+        class_id=56,
+        class_name="chair",
+        confidence=0.90,
+        x1=200,
+        y1=200,
+        x2=350,
+        y2=400,
+    )
+    pipeline = make_pipeline([detection])
+    frame = np.zeros((480, 640, 3), dtype=np.uint8)
+
+    result = pipeline.process(frame)
+
+    assert result.scene_state.obstacle_detected is True
+    assert result.scene_state.route_evidence_sufficient is False
+    assert result.cue.action.value == "NO_AUTOMATIC_ACTION"
+
+
+def test_pipeline_does_not_report_value_change_without_temporal_pair():
+    pipeline = make_pipeline([])
+    frame = np.zeros((480, 640, 3), dtype=np.uint8)
+
+    result = pipeline.process(frame)
+
+    assert result.scene_state.spatial_value_change is None

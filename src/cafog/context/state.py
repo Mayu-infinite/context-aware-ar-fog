@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -19,10 +18,7 @@ class ContextType(StrEnum):
 
 @dataclass
 class SceneState:
-    """Structured representation of the environment.
-
-    This object is intentionally separate from raw object detection.
-    """
+    """Structured scene representation with explicit evidence limitations."""
 
     door_detected: bool = False
     door_distance_m: float | None = None
@@ -38,3 +34,11 @@ class SceneState:
     person_detected: bool = False
     confidence: float = 0.0
     context: ContextType = ContextType.UNKNOWN
+
+    # Diagnostic value-estimation outputs; these do not certify safety.
+    spatial_value: float | None = None
+    spatial_value_confidence: float = 0.0
+    spatial_value_change: float | None = None
+
+    # False until route geometry and relevant scene evidence are assessed.
+    route_evidence_sufficient: bool = False
