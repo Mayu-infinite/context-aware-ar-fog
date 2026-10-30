@@ -83,5 +83,5 @@ sensor, and the depth network dominates latency on a laptop CPU.
 ## Earlier pipeline
 
 The first prototype (YOLO object detection + context rules) was removed after commit
-`b82f6c4`; it labelled objects, which patients should not see, and object classes do not
-determine walking demand. `git checkout b82f6c4 -- src/cafog` restores it for comparison.
+`1e9c25a`; it labelled objects, which patients should not see, and object classes do not
+determine walking demand. `git checkout 1e9c25a -- src/cafog` restores it for comparison.
