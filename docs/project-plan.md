@@ -1,86 +1,51 @@
-
----
-
-# 42. `docs/project-plan.md`
-
-```markdown
 # Project Plan
 
-## Phase 1 — Baseline perception
+## Phase 1 — Spatial perception (done)
 
-Video
+Depth + head pose
 ↓
-YOLO
+2.5D traversability grid (floor, obstacles, drop-offs; no object labels)
+
+## Phase 2 — Value model (done)
+
+Traversability grid
 ↓
-Detected objects
-
-## Phase 2 — Spatial reasoning
-
-Objects
-+
-depth
-+
-geometry
+training-free critic (value heatmap) + Parkinsonian value canyon
 ↓
-SceneState
+Go/No-go prediction of slowing or freezing along the route ahead
 
-## Phase 3 — Context
+## Phase 3 — Cue (done)
 
-SceneState
+Predicted freeze risk
 ↓
-ContextEngine
-↓
-environmental context
+footsteps on the floor (+ metronome), initiation cue when standing still
 
-## Phase 4 — Action
+## Phase 4 — Simulation and datasets (done)
 
-Context
-↓
-ActionPolicy
-↓
-recommended action
+Paper turning angles and doorways in simulation; ScanNet RGB-D replay
 
-## Phase 5 — Cue
-
-Action
-↓
-visual/audio cue
-
-## Phase 6 — Temporal reasoning
-
-Frame sequence
-↓
-temporal model
-↓
-context prediction
-
-## Phase 7 — Real-time camera
-
-Camera
-↓
-real-time pipeline
-↓
-cue
-
-## Phase 8 — Mobile prototype
+## Phase 5 — Mobile prototype (in progress)
 
 Phone camera
 ↓
-laptop processing
+monocular metric depth + floor-anchored visual odometry on the laptop
 ↓
-feedback
+same engine and cue
 
-## Phase 9 — Quest 3
+## Phase 6 — Quest 3
 
-Quest passthrough
+Quest Depth API
 ↓
-perception
+GPU grid binning + C# engine (parity-tested against Python)
 ↓
-context
-↓
-Unity AR cue
+footsteps in passthrough
 
-## Phase 10 — Optional gait integration
+## Phase 7 — Evaluation
+
+Healthy participants first; clinical evaluation only with appropriate
+supervision and approvals
+
+## Phase 8 — Optional gait integration
 
 Environment
 +

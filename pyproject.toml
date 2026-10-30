@@ -8,11 +8,11 @@ dependencies = [
     "matplotlib>=3.9",
     "numpy>=2.0",
     "opencv-python>=4.10",
-    "pandas>=2.2",
+    "pillow>=12.3.0",
     "pyyaml>=6.0",
-    "tqdm>=4.66",
+    "scipy>=1.14",
+    "torch>=2.4",
     "transformers>=5.20.1",
-    "ultralytics>=8.3",
 ]
 
 [dependency-groups]
@@ -20,6 +20,16 @@ dev = [
     "pytest>=8.0",
     "ruff>=0.8",
 ]
+
+# CPU build of PyTorch (only the phone-camera depth model uses it). For an NVIDIA GPU,
+# point this index at https://download.pytorch.org/whl/cu130 and run `uv sync`.
+[tool.uv.sources]
+torch = [{ index = "pytorch-cpu" }]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
 
 [build-system]
 requires = ["setuptools>=75"]

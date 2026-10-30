@@ -1,0 +1,14 @@
+{
+    "name": "Cafog.Quest",
+    "rootNamespace": "Cafog.Quest",
+    "references": ["Cafog.Core"],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

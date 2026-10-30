@@ -1,0 +1,34 @@
+# Label-free spatial cue engine (src/cafog/spatial, unity/CafogQuest/Assets/Cafog).
+# Personalise per patient here (or from the companion app), then export for the headset:
+#   uv run python scripts/export_unity_config.py configs/spatial_engine.yaml
+# Every key is optional; omitted keys keep the defaults in src/cafog/spatial/config.py.
+
+profile:
+  # healthy | pd_nonfog | pd_fog (Bhattacharya et al. 2026 TD-error clamps 0.008 / 0.001)
+  preset: pd_fog
+  # Larger stride / slower metronome for patients with short, shuffling steps.
+  cue_step_length_m: 0.55
+  cue_speed_mps: 0.8
+
+cue:
+  # Risk = 1 - v_PD / v_HC predicted by the GEN model along the route ahead.
+  on_risk: 0.6
+  off_risk: 0.35
+  # How far ahead a predicted freeze triggers the cue while walking / when standing still.
+  trigger_distance_m: 3.0
+  initiation_distance_m: 1.5
+  max_footsteps: 8
+  audio_enabled: true
+  visual_enabled: true
+
+value:
+  # Passages narrower than comfort_width_m raise demand; min_width_m is maximal demand.
+  comfort_width_m: 1.1
+  min_width_m: 0.6
+  # Turns sharper than this (deg) start to count as demanding.
+  turn_deadband_deg: 15.0
+
+map:
+  cell_size_m: 0.10
+  size_m: 10.0
+  max_range_m: 4.5

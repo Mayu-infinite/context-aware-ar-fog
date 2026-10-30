@@ -127,6 +127,11 @@ unity/**/*.suo
 unity/**/*.user
 unity/**/*.userprefs
 
+# Standalone .NET tools that compile the Unity core outside Unity (keep their project files)
+!unity/CafogQuest/Tools/**/*.csproj
+unity/CafogQuest/Tools/**/bin/
+unity/CafogQuest/Tools/**/obj/
+
 # Unity generated system files
 unity/**/sysinfo.txt
 unity/**/crashlytics-build-id.txt
