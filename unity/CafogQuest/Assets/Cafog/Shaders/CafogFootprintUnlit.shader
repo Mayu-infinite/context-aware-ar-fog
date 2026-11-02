@@ -55,7 +55,7 @@ Shader "Cafog/FootprintUnlit"
                 return o;
             }
 
-            fixed4 frag(v2f i) : SV_Target
+            float4 frag(v2f i) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID(i);
                 float4 c = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);

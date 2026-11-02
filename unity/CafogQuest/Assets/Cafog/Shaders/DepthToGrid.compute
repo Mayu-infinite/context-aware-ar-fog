@@ -1,13 +1,18 @@
+
 // Quest Depth API frame -> per-cell point counts of the Cafog traversability grid.
-// GPU twin of TraversabilityMap.update_floor + count_points in src/cafog/spatial/occupancy.py.
+// GPU twin of TraversabilityMap.update_floor + count_points in
+// src/cafog/spatial/occupancy.py.
 //
 // _Counts layout (uint):
 //   [0, N*N)          obstacle points per cell
 //   [N*N, 2N*N)       floor points per cell
 //   [2N*N, 3N*N)      drop-off points per cell
-//   [3N*N, 3N*N+90)   height histogram (2 cm bins from eye-2.3 m to eye-0.5 m)
+//   [3N*N, 3N*N+90)   height histogram
 //   [3N*N+90]         asuint(floor height used for classification)
-// _FloorState (float, persists across frames): [0] smoothed floor y, [1] 1 if valid.
+//
+// _FloorState (float, persists across frames):
+//   [0] smoothed floor y
+//   [1] 1 if valid
 
 #pragma kernel Clear
 #pragma kernel Histogram
@@ -21,11 +26,14 @@
 #define PEAK_RATIO 0.3
 
 Texture2DArray<float> _DepthTex;
-float4x4 _InvReprojection;   // depth-camera clip space -> world, eye 0
-float4 _DepthZBufferParams;  // _EnvironmentDepthZBufferParams
+
+float4x4 _InvReprojection;
+float4 _DepthZBufferParams;
+
 uint2 _DepthSize;
 uint _Stride;
 uint _FlipY;
+
 float _MinRange;
 float _MaxRange;
 float _EyeY;
@@ -33,6 +41,7 @@ float _EyeY;
 float2 _GridOrigin;
 float _CellSize;
 uint _GridN;
+
 float _FloorTolerance;
 float _ObstacleMinHeight;
 float _ObstacleMaxHeight;
@@ -43,86 +52,226 @@ float _InitialEyeHeight;
 RWStructuredBuffer<uint> _Counts;
 RWStructuredBuffer<float> _FloorState;
 
-bool WorldPoint(uint2 id, out float3 world)
+
+// Reconstruct a world-space point from one depth pixel.
+// The w component is zero on failure and one on success.
+float4 WorldPoint(uint2 id)
 {
-    world = 0;
-    uint2 p = id * _Stride;
-    if (p.x >= _DepthSize.x || p.y >= _DepthSize.y) return false;
-    float d = _DepthTex.Load(int4(p.x, p.y, 0, 0));
-    float ndc = d * 2.0 - 1.0;
-    float linearDepth = _DepthZBufferParams.x / (ndc + _DepthZBufferParams.y);
-    if (!(linearDepth >= _MinRange && linearDepth <= _MaxRange)) return false;
-    float2 uv = (float2(p) + 0.5) / float2(_DepthSize);
-    if (_FlipY != 0) uv.y = 1.0 - uv.y;
-    float4 h = mul(_InvReprojection, float4(uv * 2.0 - 1.0, ndc, 1.0));
-    world = h.xyz / h.w;
-    return true;
+    float4 result = float4(0.0, 0.0, 0.0, 0.0);
+    uint stride = max(_Stride, 1u);
+    uint2 p = id * stride;
+
+    if (p.x < _DepthSize.x && p.y < _DepthSize.y)
+    {
+        float d = _DepthTex.Load(int4(p.x, p.y, 0, 0));
+        float ndc = d * 2.0 - 1.0;
+        float denominator = ndc + _DepthZBufferParams.y;
+
+        if (abs(denominator) >= 1e-6)
+        {
+            float linearDepth = _DepthZBufferParams.x / denominator;
+
+            if (linearDepth >= _MinRange && linearDepth <= _MaxRange)
+            {
+                float2 uv = (float2(p) + 0.5) / float2(_DepthSize);
+
+                if (_FlipY != 0)
+                    uv.y = 1.0 - uv.y;
+
+                float4 h = mul(
+                    _InvReprojection,
+                    float4(uv * 2.0 - 1.0, ndc, 1.0)
+                );
+
+                if (abs(h.w) >= 1e-6)
+                {
+                    float3 reconstructedWorld = h.xyz / h.w;
+
+                    if (!any(isnan(reconstructedWorld)) &&
+                        !any(isinf(reconstructedWorld)))
+                    {
+                        result = float4(reconstructedWorld, 1.0);
+                    }
+                }
+            }
+        }
+    }
+
+    return result;
 }
 
+
+// Clear per-frame point counts and histogram.
 [numthreads(64, 1, 1)]
 void Clear(uint3 id : SV_DispatchThreadID)
 {
     uint total = 3 * _GridN * _GridN + BINS;
-    if (id.x < total) _Counts[id.x] = 0;
+
+    if (id.x < total)
+        _Counts[id.x] = 0;
 }
 
+
+// Build a histogram of reconstructed world-space heights.
 [numthreads(8, 8, 1)]
 void Histogram(uint3 id : SV_DispatchThreadID)
 {
-    float3 world;
-    if (!WorldPoint(id.xy, world)) return;
+    float4 worldPointData = WorldPoint(id.xy);
+
+    if (worldPointData.w == 0.0)
+        return;
+
+    float3 world = worldPointData.xyz;
     float rel = world.y - (_EyeY - SEARCH_MAX_BELOW_EYE);
+
     int bin = (int)floor(rel / BIN_M);
-    if (bin >= 0 && bin < BINS) InterlockedAdd(_Counts[3 * _GridN * _GridN + bin], 1);
+
+    if (bin >= 0 && bin < BINS)
+    {
+        InterlockedAdd(
+            _Counts[3 * _GridN * _GridN + (uint)bin],
+            1
+        );
+    }
 }
 
-// Lowest strong horizontal-surface peak below the eye, smoothed over frames.
+
+// Estimate the floor from the height histogram.
+// The selected floor estimate is smoothed over frames.
 [numthreads(1, 1, 1)]
-void EstimateFloor(uint3 id : SV_DispatchThreadID)
+void EstimateFloor()
 {
     uint base = 3 * _GridN * _GridN;
+
     float smoothed[BINS];
-    float total = 0;
-    float peak = 0;
+
+    float total = 0.0;
+    float peak = 0.0;
+
     for (int i = 0; i < BINS; i++)
     {
-        float left = i > 0 ? (float)_Counts[base + i - 1] : 0;
-        float right = i < BINS - 1 ? (float)_Counts[base + i + 1] : 0;
-        float centre = (float)_Counts[base + i];
+        float left = (i > 0)
+            ? (float)_Counts[base + (uint)(i - 1)]
+            : 0.0;
+
+        float right = (i < BINS - 1)
+            ? (float)_Counts[base + (uint)(i + 1)]
+            : 0.0;
+
+        float centre = (float)_Counts[base + (uint)i];
+
         total += centre;
-        smoothed[i] = 0.25 * left + 0.5 * centre + 0.25 * right;
+
+        smoothed[i] =
+            0.25 * left +
+            0.5 * centre +
+            0.25 * right;
+
         peak = max(peak, smoothed[i]);
     }
-    if (total > 0 && peak >= MIN_FRACTION * total)
+
+    if (total > 0.0 && peak >= MIN_FRACTION * total)
     {
         int first = 0;
-        while (first < BINS - 1 && smoothed[first] < PEAK_RATIO * peak) first++;
+
+        while (
+            first < BINS - 1 &&
+            smoothed[first] < PEAK_RATIO * peak
+        )
+        {
+            first++;
+        }
+
         int end = first;
-        while (end + 1 < BINS && smoothed[end + 1] >= smoothed[end]) end++;
-        float estimate = _EyeY - SEARCH_MAX_BELOW_EYE + (end + 0.5) * BIN_M;
+
+        while (
+            end + 1 < BINS &&
+            smoothed[end + 1] >= smoothed[end]
+        )
+        {
+            end++;
+        }
+
+        float estimate =
+            _EyeY -
+            SEARCH_MAX_BELOW_EYE +
+            ((float)end + 0.5) * BIN_M;
+
         if (_FloorState[1] > 0.5)
-            _FloorState[0] = (1.0 - _FloorSmoothing) * _FloorState[0] + _FloorSmoothing * estimate;
+        {
+            _FloorState[0] =
+                (1.0 - _FloorSmoothing) * _FloorState[0] +
+                _FloorSmoothing * estimate;
+        }
         else
+        {
             _FloorState[0] = estimate;
+        }
+
         _FloorState[1] = 1.0;
     }
-    float floorUsed = _FloorState[1] > 0.5 ? _FloorState[0] : _EyeY - _InitialEyeHeight;
+
+    float floorUsed =
+        (_FloorState[1] > 0.5)
+        ? _FloorState[0]
+        : _EyeY - _InitialEyeHeight;
+
     _Counts[base + BINS] = asuint(floorUsed);
 }
 
+
+// Classify reconstructed points into obstacle, floor,
+// and drop-off grid counts.
 [numthreads(8, 8, 1)]
 void Classify(uint3 id : SV_DispatchThreadID)
 {
-    float3 world;
-    if (!WorldPoint(id.xy, world)) return;
+    float4 worldPointData = WorldPoint(id.xy);
+
+    if (worldPointData.w == 0.0)
+        return;
+
+    float3 world = worldPointData.xyz;
     uint n = _GridN;
-    float floorY = asfloat(_Counts[3 * n * n + BINS]);
-    int col = (int)floor((world.x - _GridOrigin.x) / _CellSize);
-    int row = (int)floor((world.z - _GridOrigin.y) / _CellSize);
-    if (col < 0 || row < 0 || col >= (int)n || row >= (int)n) return;
+
+    if (n == 0 || _CellSize <= 0.0)
+        return;
+
+    float floorY = asfloat(
+        _Counts[3 * n * n + BINS]
+    );
+
+    int col = (int)floor(
+        (world.x - _GridOrigin.x) / _CellSize
+    );
+
+    int row = (int)floor(
+        (world.z - _GridOrigin.y) / _CellSize
+    );
+
+    if (
+        col < 0 ||
+        row < 0 ||
+        col >= (int)n ||
+        row >= (int)n
+    )
+        return;
+
     uint cell = (uint)row * n + (uint)col;
+
     float h = world.y - floorY;
-    if (h >= _ObstacleMinHeight && h <= _ObstacleMaxHeight) InterlockedAdd(_Counts[cell], 1);
-    if (abs(h) <= _FloorTolerance) InterlockedAdd(_Counts[n * n + cell], 1);
-    if (h <= -_DropoffDepth) InterlockedAdd(_Counts[2 * n * n + cell], 1);
+
+    if (h >= _ObstacleMinHeight && h <= _ObstacleMaxHeight)
+    {
+        InterlockedAdd(_Counts[cell], 1);
+    }
+
+    if (abs(h) <= _FloorTolerance)
+    {
+        InterlockedAdd(_Counts[n * n + cell], 1);
+    }
+
+    if (h <= -_DropoffDepth)
+    {
+        InterlockedAdd(_Counts[2 * n * n + cell], 1);
+    }
 }
